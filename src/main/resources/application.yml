@@ -1,0 +1,8 @@
+server:
+  port: 8012
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-noisy-hall-a2ra9lfz-pooler.eu-central-1.aws.neon.tech:5432/neondb
+    username: neondb_owner
+    password: npg_po8GJI4XMORL
+    driverClassName: org.postgresql.Driver

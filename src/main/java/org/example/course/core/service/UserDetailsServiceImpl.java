@@ -3,7 +3,7 @@ package org.example.course.core.service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.example.course.core.entity.User;
+import org.example.course.core.entity.user.User;
 import org.example.course.core.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

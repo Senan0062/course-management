@@ -1,4 +1,4 @@
-package org.example.course.core.entity;
+package org.example.course.core.entity.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

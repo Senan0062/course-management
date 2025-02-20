@@ -1,6 +1,6 @@
 package org.example.course.core.repository;
 
-import org.example.course.core.entity.User;
+import org.example.course.core.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

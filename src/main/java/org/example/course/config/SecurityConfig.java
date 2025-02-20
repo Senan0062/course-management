@@ -17,6 +17,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -34,11 +39,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) // ✅ CSRF devre dışı bırakıldı
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ CORS ayarları düzeltildi
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()  // Public authentication endpoints
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")  // Only Admins can access
-                        .anyRequest().authenticated()  // All other requests require authentication
+                        .requestMatchers(
+                                "/api/auth/**",  // Public authentication endpoints
+                                "/swagger-ui/**", // ✅ Swagger UI'ye erişim izni
+                                "/swagger-ui.html", // ✅ Swagger UI ana sayfası
+                                "/v3/api-docs/**", // ✅ Swagger API dokümantasyonuna erişim izni
+                                "/v3/api-docs/swagger-config" // ✅ Swagger konfigürasyonu
+                        ).permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")  // Admin endpointleri
+                        .anyRequest().authenticated()  // Diğer tüm istekler kimlik doğrulama gerektirir
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -51,15 +63,29 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder);
+        authProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(authProvider);
     }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(jwtService, userDetailsService);
+    }
+
+    // ✅ CORS KISMI DÜZELTİLDİ
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("*")); // Tüm domainlerden erişime izin ver
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source; // ✅ Hata düzeltildi: CorsConfiguration yerine CorsConfigurationSource döndürülüyor
     }
 }

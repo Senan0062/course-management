@@ -1,4 +1,4 @@
-package org.example.course.core.dto;
+package org.example.course.core.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

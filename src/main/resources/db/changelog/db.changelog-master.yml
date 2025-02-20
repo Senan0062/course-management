@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/v1/changelog-create-user-table.yml
   - include:
         file: db/changelog/v1/changelog-create-table-user-role.yml
+  - include:
+        file: db/changelog/v1/003-create-students-table.yaml

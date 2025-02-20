@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.example.course.core.entity.user.dto.UserReadRequestDto;
 import org.example.course.core.entity.user.dto.UserReadResponseDto;
 import org.example.course.core.repository.UserRepository;
+import org.example.course.utility.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,14 +20,15 @@ public class UserReadService {
     UserRepository userRepository;
 
     public UserReadResponseDto read(UserReadRequestDto dto) {
-        Optional<User> user = userRepository.findById(dto.getId());
+        User user = userRepository.findById(dto.getId())
+                .orElseThrow(()-> new ResourceNotFoundException("User not found"));
 
         if (userRepository.findById(dto.getId()).isEmpty()) {
             throw new RuntimeException("User not found");
         }
 
         return UserReadResponseDto.builder()
-                .username(user.get().getUsername())
+                .username(user.getUsername())
                 .build();
     }
 }

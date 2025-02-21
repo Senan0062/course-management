@@ -19,7 +19,6 @@ public class StudentCreateRequest {
     String email;
     Long phoneNumber;
     LocalDate birthDate;
-    String status;
     Long age;
     Long fkClassId;
     Long fkGroupId;

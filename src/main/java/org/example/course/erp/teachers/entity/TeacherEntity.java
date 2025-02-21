@@ -1,21 +1,19 @@
-package org.example.course.erp.students.entity;
+package org.example.course.erp.teachers.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "students")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class StudentEntity {
+@Table(name = "teachers")
+public class TeacherEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -28,19 +26,18 @@ public class StudentEntity {
     String firstName;
     @Column(name = "last_name")
     String lastName;
-    @Column(name = "birth_date")
-    LocalDate birthDate;
     @Column(name = "email")
     String email;
-    @Column(name = "phone_number")
-    String phoneNumber;
+    @Column(name = "birth_date")
+    LocalDate birthDate;
     @Column(name = "status")
     String status;
-    @Column(name = "age")
-    Long age;
-    @Column(name = "fk_class_id")
-    Long fkClassId;
-    @Column(name = "fk_group_id")
-    Long fkGroupId;
-
+    @Column(name = "speciality")
+    String speciality;
+    @Column(name = "teaching_hours")
+    Long teachingHours;
+    @Column(name = "gender")
+    Long gender;
+    @Column(name = "phone_number")
+    Long phoneNumber;
 }

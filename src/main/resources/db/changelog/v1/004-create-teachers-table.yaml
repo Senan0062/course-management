@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 003-create-students-table
+      id: 004-create-teachers-table
       author: cahidhuseyn
       changes:
         - createTable:
-            tableName: students
+            tableName: teachers
             columns:
               - column:
                   name: id
@@ -45,20 +45,20 @@ databaseChangeLog:
                   name: status
                   type: VARCHAR(50)
                   constraints:
-                   nullable: false
+                    nullable: false
               - column:
-                  name: fk_class_id
+                  name: speciality
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: teaching_hours
                   type: BIGINT
                   constraints:
                     nullable: false
               - column:
-                  name: fk_group_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: age
-                  type: INT
+                  name: gender
+                  type: varchar(20)
                   constraints:
                     nullable: false
               - column:

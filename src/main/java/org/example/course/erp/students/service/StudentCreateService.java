@@ -23,7 +23,7 @@ public class StudentCreateService {
     public EntityById create(StudentCreateRequest request) {
         StudentEntity entity = mapper.toEntity(request);
         entity.setStatus("A");
-        entity.setCreatedAt(LocalDateTime.now());
+        entity.setCreatedDate(LocalDateTime.now());
         repository.save(entity);
 
         return mapper.toEntityById(entity);

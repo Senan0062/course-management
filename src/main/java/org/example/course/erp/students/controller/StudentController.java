@@ -5,10 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.course.core.dto.user.EntityById;
 import org.example.course.erp.students.dto.StudentCreateRequest;
+import org.example.course.erp.students.dto.StudentUpdateRequest;
 import org.example.course.erp.students.entity.StudentEntity;
 import org.example.course.erp.students.service.StudentCreateService;
 import org.example.course.erp.students.service.StudentDeleteService;
 import org.example.course.erp.students.service.StudentReadService;
+import org.example.course.erp.students.service.StudentUpdateService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,7 @@ public class StudentController {
     StudentCreateService createService;
     StudentDeleteService deleteService;
     StudentReadService studentReadService;
+    StudentUpdateService updateService;
 
     @PostMapping("/create")
     public ResponseEntity<EntityById> create(@Valid @RequestBody StudentCreateRequest request) {
@@ -33,9 +36,9 @@ public class StudentController {
     public ResponseEntity<Void> delete(@Valid @RequestBody EntityById request) {
         boolean isDeleted = deleteService.delete(request);
         if (isDeleted) {
-            return ResponseEntity.ok().build(); // 200 OK
+            return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -43,5 +46,11 @@ public class StudentController {
     @ResponseStatus(HttpStatus.OK)
     public List<StudentEntity> readAllStudents() {
         return studentReadService.readStudents();
+    }
+
+    @PostMapping("/update")
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@Valid @RequestBody StudentUpdateRequest dto) {
+        updateService.updateStudent(dto);
     }
 }

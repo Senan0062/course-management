@@ -21,30 +21,11 @@ public class StudentCreateService {
     StudentMapper mapper;
 
     public EntityById create(StudentCreateRequest request) {
-
-        StudentEntity entity = new StudentEntity();
-        entity.setCreatedAt(LocalDateTime.now());
-        entity.setFirstName(request.getFirstName());
-        entity.setLastName(request.getLastName());
-        entity.setEmail(request.getEmail());
-        entity.setAge(request.getAge());
-        entity.setBirthDate(request.getBirthDate());
-        entity.setFkClassId(request.getFkClassId());
-        entity.setFkGroupId(request.getFkGroupId());
-        entity.setPhoneNumber(String.valueOf(request.getPhoneNumber()));
+        StudentEntity entity = mapper.toEntity(request);
         entity.setStatus("A");
+        entity.setCreatedAt(LocalDateTime.now());
         repository.save(entity);
 
-//        if (repository.findByFirstNameAndLastNameAndEmail(request.getFirstName(), request.getLastName(), request.getEmail()).isEmpty()) {
-//            throw new RuntimeException("Student already exists");
-//        }
-//        StudentEntity entity = mapper.createRequestToEntity(request);
-//        repository.save(entity);
-//        return EntityById.builder()
-//                .id(entity.getId())
-//                .build();
-        return EntityById.builder()
-                .id(entity.getId())
-                .build();
+        return mapper.toEntityById(entity);
     }
 }

@@ -5,10 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
 public interface StudentRepository extends JpaRepository<StudentEntity, String>, JpaSpecificationExecutor<StudentEntity> {
+    
+    StudentEntity findByIdAndStatus(Long id, String status);
 
-    Optional<StudentEntity> findByFirstNameAndLastNameAndEmail(String firstName, String lastName, String email);
 }

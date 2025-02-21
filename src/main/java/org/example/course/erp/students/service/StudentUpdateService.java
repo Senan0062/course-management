@@ -2,7 +2,7 @@ package org.example.course.erp.students.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.course.erp.students.dto.StudentUpdateRequest;
+import org.example.course.erp.students.dto.request.StudentUpdateRequest;
 import org.example.course.erp.students.entity.StudentEntity;
 import org.example.course.erp.students.mapper.StudentMapper;
 import org.example.course.erp.students.repository.StudentRepository;

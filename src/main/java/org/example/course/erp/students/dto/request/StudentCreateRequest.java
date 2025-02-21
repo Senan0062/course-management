@@ -1,4 +1,4 @@
-package org.example.course.erp.students.dto;
+package org.example.course.erp.students.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

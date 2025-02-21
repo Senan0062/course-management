@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.course.core.dto.user.EntityById;
-import org.example.course.erp.students.dto.StudentCreateRequest;
+import org.example.course.erp.students.dto.request.StudentCreateRequest;
 import org.example.course.erp.students.entity.StudentEntity;
 import org.example.course.erp.students.mapper.StudentMapper;
 import org.example.course.erp.students.repository.StudentRepository;

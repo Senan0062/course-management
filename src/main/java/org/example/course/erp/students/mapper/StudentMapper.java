@@ -1,8 +1,8 @@
 package org.example.course.erp.students.mapper;
 
 import org.example.course.core.dto.user.EntityById;
-import org.example.course.erp.students.dto.StudentCreateRequest;
-import org.example.course.erp.students.dto.StudentUpdateRequest;
+import org.example.course.erp.students.dto.request.StudentCreateRequest;
+import org.example.course.erp.students.dto.request.StudentUpdateRequest;
 import org.example.course.erp.students.entity.StudentEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -4,14 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.course.core.dto.user.EntityById;
-import org.example.course.erp.students.dto.StudentCreateRequest;
-import org.example.course.erp.students.dto.StudentUpdateRequest;
+import org.example.course.erp.students.dto.request.StudentCreateRequest;
+import org.example.course.erp.students.dto.request.StudentUpdateRequest;
 import org.example.course.erp.students.entity.StudentEntity;
 import org.example.course.erp.students.service.StudentCreateService;
 import org.example.course.erp.students.service.StudentDeleteService;
 import org.example.course.erp.students.service.StudentReadService;
 import org.example.course.erp.students.service.StudentUpdateService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,33 +23,42 @@ import java.util.List;
 public class StudentController {
     StudentCreateService createService;
     StudentDeleteService deleteService;
-    StudentReadService studentReadService;
+    StudentReadService readService;
     StudentUpdateService updateService;
 
-    @PostMapping("/create")
-    public ResponseEntity<EntityById> create(@Valid @RequestBody StudentCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(createService.create(request));
+    /**
+     * Yeni tələbə yaradılması
+     */
+    @PostMapping
+    public ResponseEntity<EntityById> createStudent(@Valid @RequestBody StudentCreateRequest request) {
+        EntityById student = createService.create(request);
+        return ResponseEntity.ok(student);
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<Void> delete(@Valid @RequestBody EntityById request) {
-        boolean isDeleted = deleteService.delete(request);
-        if (isDeleted) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    /**
+     * ID-yə əsasən tələbənin silinməsi
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+        boolean isDeleted = deleteService.delete(new EntityById(id));
+        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/read-all-students")
-    @ResponseStatus(HttpStatus.OK)
-    public List<StudentEntity> readAllStudents() {
-        return studentReadService.readStudents();
+    /**
+     * Bütün tələbələrin oxunması
+     */
+    @GetMapping
+    public ResponseEntity<List<StudentEntity>> getAllStudents() {
+        List<StudentEntity> students = readService.readStudents();
+        return ResponseEntity.ok(students);
     }
 
-    @PostMapping("/update")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@Valid @RequestBody StudentUpdateRequest dto) {
+    /**
+     * Tələbənin məlumatlarını yeniləmə
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateStudent(@PathVariable Long id, @Valid @RequestBody StudentUpdateRequest dto) {
         updateService.updateStudent(dto);
+        return ResponseEntity.noContent().build();
     }
 }

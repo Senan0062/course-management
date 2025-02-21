@@ -1,7 +1,12 @@
-package org.example.course.erp.students.dto;
+package org.example.course.erp.students.dto.request;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 @Getter
@@ -16,7 +21,7 @@ public class StudentUpdateRequest {
     String firstName;
     String lastName;
     String email;
-    String birthDate;
+    LocalDate birthDate;
     Long age;
     Long phoneNumber;
     Long fkClassId;

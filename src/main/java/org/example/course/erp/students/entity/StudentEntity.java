@@ -20,8 +20,10 @@ public class StudentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     Long id;
-    @Column(name = "created_at")
-    LocalDateTime createdAt;
+    @Column(name = "created_date")
+    LocalDateTime createdDate;
+    @Column(name = "modification_date")
+    LocalDateTime modificationDate;
     @Column(name = "first_name")
     String firstName;
     @Column(name = "last_name")

@@ -14,6 +14,14 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: modification_date
+                  type: TIMESTAMP
+              - column:
                   name: first_name
                   type: VARCHAR(50)
                   constraints:
@@ -36,11 +44,6 @@ databaseChangeLog:
               - column:
                   name: status
                   type: VARCHAR(50)
-                  constraints:
-                   nullable: false
-              - column:
-                  name: created_at
-                  type: TIMESTAMP
                   constraints:
                    nullable: false
               - column:

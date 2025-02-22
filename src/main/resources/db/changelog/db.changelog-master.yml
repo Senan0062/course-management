@@ -7,3 +7,9 @@ databaseChangeLog:
         file: db/changelog/v1/003-create-students-table.yaml
   - include:
         file: db/changelog/v1/004-create-teachers-table.yaml
+  - include:
+        file: db/changelog/v1/005-create-lessons-table.yml
+  - include:
+        file: db/changelog/v1/006-create-enrollments-table.yml
+  - include:
+        file: db/changelog/v1/007-create-scores-table.yml

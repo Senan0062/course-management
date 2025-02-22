@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-create-scores-table
+      author: cahidhuseyn
+      changes:
+        - createTable:
+            tableName: scores
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: student_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_scores_student
+                    references: students(id)
+              - column:
+                  name: lesson_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_scores_lesson
+                    references: lessons(id)
+              - column:
+                  name: exam_type
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: score
+                  type: DECIMAL(5,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: exam_date
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP

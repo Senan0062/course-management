@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 @AllArgsConstructor
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
 public class ScoreResponse {
     Long id;
     Long studentId;

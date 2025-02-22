@@ -6,9 +6,9 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @Builder
-@FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 @AllArgsConstructor
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
 public class LessonReadResponse {
     Long id;
     String title;

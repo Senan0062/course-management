@@ -1,6 +1,5 @@
 package org.example.course.utility.exception;
 
-import jakarta.validation.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
@@ -130,5 +129,28 @@ public class GlobalExceptionHandler {
         errorDetails.put("path", request.getDescription(false));
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ jakarta.validation.ValidationException.class, jakarta.validation.ConstraintViolationException.class })
+    public ResponseEntity<Map<String, Object>> handleValidationException(Exception ex, WebRequest request) {
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("timestamp", new Date());
+        errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
+        errorDetails.put("error", "Bad Request");
+        errorDetails.put("message", extractValidationMessage(ex));
+        errorDetails.put("path", request.getDescription(false));
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    private String extractValidationMessage(Exception ex) {
+        if (ex instanceof jakarta.validation.ConstraintViolationException) {
+            return ((jakarta.validation.ConstraintViolationException) ex).getConstraintViolations()
+                    .stream()
+                    .map(violation -> violation.getPropertyPath() + " " + violation.getMessage())
+                    .findFirst()
+                    .orElse("Validation error occurred.");
+        }
+        return ex.getMessage();
     }
 }

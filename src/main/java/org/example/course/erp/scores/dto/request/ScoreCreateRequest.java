@@ -12,8 +12,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class ScoreCreateRequest {
-    private Long studentId;
-    private Long lessonId;
-    private String examType;
-    private Double score;
+    Long studentId;
+    Long lessonId;
+    String examType;
+    Double score;
 }

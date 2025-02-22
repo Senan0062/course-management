@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public class EnrollmentResponse {
-    private Long id;
-    private Long studentId;
-    private Long lessonId;
+    Long id;
+    Long studentId;
+    Long lessonId;
 }

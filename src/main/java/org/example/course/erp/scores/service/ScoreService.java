@@ -1,8 +1,11 @@
 package org.example.course.erp.scores.service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.example.course.core.dto.user.EntityById;
 import org.example.course.erp.scores.dto.request.ScoreCreateRequest;
 import org.example.course.erp.scores.dto.response.ScoreResponse;
 import org.example.course.erp.scores.entity.Score;
@@ -16,22 +19,21 @@ public class ScoreService {
     private final ScoreRepository scoreRepository;
     private final ScoreMapper scoreMapper;
 
-    public ScoreResponse addScore(ScoreCreateRequest request) {
+    public EntityById addScore(ScoreCreateRequest request) {
         Score score = scoreMapper.toEntity(request);
-        return scoreMapper.toResponse(scoreRepository.save(score));
+        return EntityById.builder().id(scoreRepository.save(score).getId()).build();
     }
 
     public List<ScoreResponse> getAllScores() {
-        return scoreRepository.findAll()
-                .stream()
-                .map(scoreMapper::toResponse)
-                .collect(Collectors.toList());
+        List<Score> scores = scoreRepository.findAll();
+        List<ScoreResponse> responses = scoreMapper.entityToReadResponse(scores);
+        return responses != null ? responses : Collections.emptyList();
     }
 
     public ScoreResponse getScoreById(Long id) {
         Score score = scoreRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Score not found"));
-        return scoreMapper.toResponse(score);
+        return scoreMapper.toReadResponse(score);
     }
 
     public Double getAverageScore(Long studentId, Long lessonId) {

@@ -1,14 +1,16 @@
 package org.example.course.erp.enrollments.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.example.course.core.dto.user.EntityById;
 import org.example.course.erp.enrollments.dto.request.EnrollmentRequest;
-import org.example.course.erp.enrollments.dto.response.EnrollmentResponse;
+import org.example.course.erp.enrollments.dto.response.EnrollmentReadResponse;
 import org.example.course.erp.enrollments.entity.Enrollment;
 import org.example.course.erp.enrollments.mapper.EnrollmentMapper;
 import org.example.course.erp.enrollments.repository.EnrollmentRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,22 +18,24 @@ public class EnrollmentService {
     private final EnrollmentRepository enrollmentRepository;
     private final EnrollmentMapper enrollmentMapper;
 
-    public EnrollmentResponse enrollStudent(EnrollmentRequest request) {
+    public EntityById enrollStudent(EnrollmentRequest request) {
         Enrollment enrollment = enrollmentMapper.toEntity(request);
-        return enrollmentMapper.toResponse(enrollmentRepository.save(enrollment));
+        enrollment.setStatus("A");
+        enrollment.setEnrollmentDate(LocalDateTime.now());
+        return EntityById.builder()
+                .id(enrollmentRepository.save(enrollment).getId())
+                .build();
     }
 
-    public List<EnrollmentResponse> getAllEnrollments() {
-        return enrollmentRepository.findAll()
+    public List<EnrollmentReadResponse> getAllEnrollments() {
+        return enrollmentRepository.findAllByStatus("A")
                 .stream()
-                .map(enrollmentMapper::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    public EnrollmentResponse getEnrollmentById(Long id) {
-        Enrollment enrollment = enrollmentRepository.findById(id)
+    public EnrollmentReadResponse getEnrollmentById(Long id) {
+        return enrollmentRepository.findByIdAndStatus(id, "A")
                 .orElseThrow(() -> new RuntimeException("Enrollment not found"));
-        return enrollmentMapper.toResponse(enrollment);
     }
 
     public void deleteEnrollment(Long id) {

@@ -1,10 +1,13 @@
 package org.example.course.erp.lessons.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.example.course.core.dto.user.EntityById;
 import org.example.course.erp.lessons.dto.request.LessonCreateRequest;
 import org.example.course.erp.lessons.dto.request.LessonUpdateRequest;
+import org.example.course.erp.lessons.dto.response.LessonReadResponse;
 import org.example.course.erp.lessons.dto.response.LessonResponse;
 import org.example.course.erp.lessons.entity.Lesson;
 import org.example.course.erp.lessons.mapper.LessonMapper;
@@ -17,32 +20,39 @@ public class LessonService {
     private final LessonRepository lessonRepository;
     private final LessonMapper lessonMapper;
 
-    public LessonResponse createLesson(LessonCreateRequest request) {
+    public EntityById createLesson(LessonCreateRequest request) {
         Lesson lesson = lessonMapper.toEntity(request);
-        return lessonMapper.toResponse(lessonRepository.save(lesson));
+        lesson.setCreatedDate(LocalDateTime.now());
+        return EntityById.builder()
+                .id(lessonRepository.save(lesson).getId())
+                .build();
     }
 
-    public List<LessonResponse> getAllLessons() {
-        return lessonRepository.findAll()
+    public List<LessonReadResponse> getAllLessons() {
+        return lessonRepository.findLessons()
                 .stream()
-                .map(lessonMapper::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    public LessonResponse getLessonById(Long id) {
+    public LessonReadResponse getLessonById(Long id) {
         Lesson lesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));
-        return lessonMapper.toResponse(lesson);
+        return lessonRepository.findTeacher(id);
     }
 
-    public LessonResponse updateLesson(Long id, LessonUpdateRequest request) {
+    public EntityById updateLesson(Long id, LessonUpdateRequest request) {
         Lesson lesson = lessonRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));
         lessonMapper.updateEntity(lesson, request);
-        return lessonMapper.toResponse(lessonRepository.save(lesson));
+        return EntityById.builder()
+                .id(lessonRepository.save(lesson).getId())
+                .build();
     }
 
     public void deleteLesson(Long id) {
+        if (!lessonRepository.existsById(id)) {
+            throw new RuntimeException("Lesson not found");
+        }
         lessonRepository.deleteById(id);
     }
 }

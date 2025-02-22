@@ -1,19 +1,16 @@
 package org.example.course.erp.enrollments.controller;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.course.core.dto.user.EntityById;
 import org.example.course.erp.enrollments.dto.request.EnrollmentRequest;
-import org.example.course.erp.enrollments.dto.response.EnrollmentResponse;
+import org.example.course.erp.enrollments.dto.response.EnrollmentReadResponse;
 import org.example.course.erp.enrollments.service.EnrollmentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,18 +20,21 @@ public class EnrollmentController {
     EnrollmentService enrollmentService;
 
     @PostMapping
-    public ResponseEntity<EnrollmentResponse> enrollStudent(@RequestBody EnrollmentRequest request) {
-        return ResponseEntity.ok(enrollmentService.enrollStudent(request));
+    @ResponseStatus(HttpStatus.CREATED)
+    public EntityById enrollStudent(@RequestBody EnrollmentRequest request) {
+        return enrollmentService.enrollStudent(request);
     }
 
     @GetMapping
-    public ResponseEntity<List<EnrollmentResponse>> getAllEnrollments() {
-        return ResponseEntity.ok(enrollmentService.getAllEnrollments());
+    @ResponseStatus(HttpStatus.OK)
+    public List<EnrollmentReadResponse> getAllEnrollments() {
+        return enrollmentService.getAllEnrollments();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EnrollmentResponse> getEnrollmentById(@PathVariable Long id) {
-        return ResponseEntity.ok(enrollmentService.getEnrollmentById(id));
+    @ResponseStatus(HttpStatus.OK)
+    public EnrollmentReadResponse getEnrollmentById(@PathVariable Long id) {
+        return enrollmentService.getEnrollmentById(id);
     }
 
     @DeleteMapping("/{id}")

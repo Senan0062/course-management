@@ -3,17 +3,13 @@ package org.example.course.erp.scores.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.course.core.dto.user.EntityById;
 import org.example.course.erp.scores.dto.request.ScoreCreateRequest;
 import org.example.course.erp.scores.dto.response.ScoreResponse;
 import org.example.course.erp.scores.service.ScoreService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +20,9 @@ public class ScoreController {
 
 
     @PostMapping
-    public ResponseEntity<ScoreResponse> addScore(@RequestBody ScoreCreateRequest request) {
-        return ResponseEntity.ok(scoreService.addScore(request));
+    @ResponseStatus(HttpStatus.CREATED)
+    public EntityById addScore(@RequestBody ScoreCreateRequest request) {
+        return scoreService.addScore(request);
     }
 
     @GetMapping

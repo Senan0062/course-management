@@ -37,7 +37,7 @@ public class Teacher {
     @Column(name = "teaching_hours")
     Long teachingHours;
     @Column(name = "gender")
-    Long gender;
+    String gender;
     @Column(name = "phone_number")
     Long phoneNumber;
 }

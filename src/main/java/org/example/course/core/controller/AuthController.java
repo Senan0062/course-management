@@ -45,9 +45,9 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody RegisterRequest request) {
         Optional<User> user = repository.findByUsername(request.getUsername());
         if (user.isPresent() && passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
-            String accesToken = jwtService.generateToken(user.get().getUsername());
+            String accessToken = jwtService.generateToken(user.get().getUsername());
 //            String refreshToken = jwtService.generateRefreshToken(user.get().getUsername());
-            return ResponseEntity.ok(Map.of("accesToken", accesToken));
+            return ResponseEntity.ok(Map.of("accesToken", accessToken));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password!");
     }

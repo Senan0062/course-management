@@ -27,8 +27,8 @@ public class Lesson {
     private String title;
     @Column(name = "description")
     private String description;
-    @Column(name = "teacher_id")
-    private Long teacherId;
+    @Column(name = "fk_teacher_id")
+    private Long fkTeacherId;
     @Column(name = "created_date")
     private LocalDateTime createdDate;
     @Column(name = "modification_date")

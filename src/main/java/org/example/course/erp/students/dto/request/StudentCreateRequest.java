@@ -10,9 +10,9 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 @AllArgsConstructor
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
 public class StudentCreateRequest {
     String firstName;
     String lastName;

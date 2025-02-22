@@ -7,9 +7,9 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(makeFinal = true ,level = lombok.AccessLevel.PRIVATE)
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class EntityById {
     @NotNull(message = "Id cannot be null")
     Long id;

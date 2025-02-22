@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.example.course.core.dto.user.EntityById;
 import org.example.course.erp.students.dto.request.StudentCreateRequest;
 import org.example.course.erp.students.dto.request.StudentUpdateRequest;
-import org.example.course.erp.students.entity.StudentEntity;
+import org.example.course.erp.students.entity.Student;
 import org.example.course.erp.students.service.StudentCreateService;
 import org.example.course.erp.students.service.StudentDeleteService;
 import org.example.course.erp.students.service.StudentReadService;
@@ -48,8 +48,8 @@ public class StudentController {
      * Bütün tələbələrin oxunması
      */
     @GetMapping
-    public ResponseEntity<List<StudentEntity>> getAllStudents() {
-        List<StudentEntity> students = readService.readStudents();
+    public ResponseEntity<List<Student>> getAllStudents() {
+        List<Student> students = readService.readStudents();
         return ResponseEntity.ok(students);
     }
 

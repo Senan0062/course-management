@@ -2,7 +2,7 @@ package org.example.course.erp.students.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.example.course.erp.students.entity.StudentEntity;
+import org.example.course.erp.students.entity.Student;
 import org.example.course.erp.students.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class StudentReadService {
     StudentRepository studentRepository;
 
-    public List<StudentEntity> readStudents() {
+    public List<Student> readStudents() {
         return studentRepository.findAll();
     }
 }

@@ -3,7 +3,7 @@ package org.example.course.erp.students.service;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.course.erp.students.dto.request.StudentUpdateRequest;
-import org.example.course.erp.students.entity.StudentEntity;
+import org.example.course.erp.students.entity.Student;
 import org.example.course.erp.students.mapper.StudentMapper;
 import org.example.course.erp.students.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class StudentUpdateService {
     StudentMapper studentMapper;
 
     public void updateStudent(StudentUpdateRequest dto) {
-        StudentEntity student = studentRepository.findByIdAndStatus(dto.getId(), "A");
+        Student student = studentRepository.findByIdAndStatus(dto.getId(), "A");
         student = studentMapper.studentUpdateDtoToStudent(student, dto);
         student.setStatus("A");
         student.setModificationDate(LocalDateTime.now());

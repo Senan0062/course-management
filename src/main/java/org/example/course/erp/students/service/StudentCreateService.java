@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.example.course.core.dto.user.EntityById;
 import org.example.course.erp.students.dto.request.StudentCreateRequest;
-import org.example.course.erp.students.entity.StudentEntity;
+import org.example.course.erp.students.entity.Student;
 import org.example.course.erp.students.mapper.StudentMapper;
 import org.example.course.erp.students.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class StudentCreateService {
     StudentMapper mapper;
 
     public EntityById create(StudentCreateRequest request) {
-        StudentEntity entity = mapper.toEntity(request);
+        Student entity = mapper.toEntity(request);
         entity.setStatus("A");
         entity.setCreatedDate(LocalDateTime.now());
         repository.save(entity);

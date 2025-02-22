@@ -1,13 +1,13 @@
 package org.example.course.erp.teachers.repository;
 
-import org.example.course.erp.teachers.entity.TeacherEntity;
+import org.example.course.erp.teachers.entity.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TeacherRepository extends JpaRepository<TeacherEntity, String>, JpaSpecificationExecutor<TeacherEntity> {
+public interface TeacherRepository extends JpaRepository<Teacher, String>, JpaSpecificationExecutor<Teacher> {
 
-    TeacherEntity findByIdAndStatus(Long id, String status);
+    Teacher findByIdAndStatus(Long id, String status);
 
 }

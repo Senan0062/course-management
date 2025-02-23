@@ -3,22 +3,16 @@ package org.example.course.core.controller;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.example.course.core.dto.user.LoginResponse;
 import org.example.course.core.dto.user.RegisterRequest;
-import org.example.course.core.entity.user.User;
-import org.example.course.core.entity.user.UserReadService;
-import org.example.course.core.repository.UserRepository;
+import org.example.course.core.service.AuthService;
 import org.example.course.utility.jwt.JwtService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,29 +20,25 @@ import java.util.Optional;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthController {
 
-    UserRepository repository;
-    PasswordEncoder passwordEncoder;
-    JwtService jwtService;
-    UserReadService readService;
+    private final AuthService authService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService; // ✅ Hata düzeltildi
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRoles(Collections.singleton("USER")); // Default olarak USER rolü ekleniyor
-        repository.save(user);
-        return "User registered successfully!";
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        String response = authService.register(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody RegisterRequest request) {
-        Optional<User> user = repository.findByUsername(request.getUsername());
-        if (user.isPresent() && passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
-            String accessToken = jwtService.generateToken(user.get().getUsername());
-//            String refreshToken = jwtService.generateRefreshToken(user.get().getUsername());
-            return ResponseEntity.ok(Map.of("accesToken", accessToken));
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password!");
+    public ResponseEntity<LoginResponse> login(@RequestBody RegisterRequest request) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+        );
+
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        String token = jwtService.generateToken(user.getUsername()); // 🛠 Burada `String` veriyoruz
+
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 }

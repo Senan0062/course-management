@@ -1,17 +1,15 @@
 package org.example.course.core.dto.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
+@Getter
+@Setter
 public class RegisterRequest {
 
-    String username;
-    String password;
+    private String username;
+    private String email;
+    private String password;
+    private String role;
 
 }

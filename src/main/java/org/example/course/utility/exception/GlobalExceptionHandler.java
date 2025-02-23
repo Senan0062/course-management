@@ -131,7 +131,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({ jakarta.validation.ValidationException.class, jakarta.validation.ConstraintViolationException.class })
+    @ExceptionHandler({jakarta.validation.ValidationException.class, jakarta.validation.ConstraintViolationException.class})
     public ResponseEntity<Map<String, Object>> handleValidationException(Exception ex, WebRequest request) {
         Map<String, Object> errorDetails = new HashMap<>();
         errorDetails.put("timestamp", new Date());

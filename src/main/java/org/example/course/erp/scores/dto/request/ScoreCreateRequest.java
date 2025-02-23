@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
@@ -16,4 +18,5 @@ public class ScoreCreateRequest {
     Long lessonId;
     String examType;
     Double score;
+    LocalDateTime examDate;
 }

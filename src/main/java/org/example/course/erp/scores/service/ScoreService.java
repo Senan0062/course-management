@@ -1,5 +1,6 @@
 package org.example.course.erp.scores.service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +22,7 @@ public class ScoreService {
 
     public EntityById addScore(ScoreCreateRequest request) {
         Score score = scoreMapper.toEntity(request);
+        score.setExamDate(LocalDateTime.now());
         return EntityById.builder().id(scoreRepository.save(score).getId()).build();
     }
 
